@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // Input sizes
+        
         int N = sc.nextInt();
         int M = sc.nextInt();
 
@@ -18,7 +18,7 @@ public class Main {
             B[j] = sc.nextLong();
         }
 
-        // Sort both arrays
+        
         Arrays.sort(A);
         Arrays.sort(B);
 
@@ -26,7 +26,7 @@ public class Main {
         int sushiCount = 0;
         List<String> pairs = new ArrayList<>();
 
-        // Greedy matching
+        
         while (i < N && j < M) {
             if (B[j] <= 2 * A[i]) {
                 sushiCount++;
@@ -38,7 +38,7 @@ public class Main {
             }
         }
 
-        // Output
+       
         System.out.println("Total matches = " + sushiCount);
         if (!pairs.isEmpty()) {
             System.out.println("Matched pairs:");
