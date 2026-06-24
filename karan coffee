@@ -1,0 +1,51 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input: size of array and number of updates
+        int n = sc.nextInt();
+        int q = sc.nextInt();
+
+        int MAX = 200000; // maximum size for difference array
+        int[] diff = new int[MAX + 1];
+
+        // Apply q range updates using difference array
+        for (int i = 0; i < q; i++) {
+            int l = sc.nextInt();
+            int r = sc.nextInt();
+            diff[l]++;        // start of range
+            diff[r + 1]--;    // end of range + 1
+        }
+
+        // Build temp array: number of times each index is covered
+        int[] temp = new int[MAX + 1];
+        temp[0] = diff[0];
+        for (int i = 1; i <= n; i++) {
+            temp[i] = temp[i - 1] + diff[i];
+        }
+
+        // Build prefix array: count of indices covered > 0
+        int[] prefix = new int[MAX + 1];
+        for (int i = 1; i <= n; i++) {
+            if (temp[i] > 0) {
+                prefix[i] = prefix[i - 1] + 1;
+            } else {
+                prefix[i] = prefix[i - 1];
+            }
+        }
+
+        // Answer queries
+        StringBuilder sb = new StringBuilder();
+        int m = sc.nextInt(); // number of queries
+        while (m-- > 0) {
+            int l = sc.nextInt();
+            int r = sc.nextInt();
+            sb.append(prefix[r] - prefix[l - 1]).append("\n");
+        }
+
+        System.out.print(sb);
+        sc.close();
+    }
+}
