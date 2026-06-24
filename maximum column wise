@@ -1,0 +1,72 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+const int p = 100;
+
+
+void columnMaxElements(int arr[][p], int n, int m) {
+    cout << "Column-wise maximums:\n";
+    for (int j = 0; j < m; j++) {
+        int maxVal = arr[0][j];
+        for (int i = 1; i < n; i++) {
+            maxVal = max(maxVal, arr[i][j]);
+        }
+        cout << "Column " << j << ": " << maxVal << endl;
+    }
+}
+
+
+int columnDiff(int arr[][p], int n, int col) {
+    int minVal = arr[0][col];
+    int maxVal = arr[0][col];
+    for (int i = 1; i < n; i++) {
+        minVal = min(minVal, arr[i][col]);
+        maxVal = max(maxVal, arr[i][col]);
+    }
+    return maxVal - minVal;
+}
+
+int main() {
+    int n = 5, m = 5;
+    int arr[p][p], b[p][p];
+
+    
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            arr[i][j] = i + j;
+        }
+    }
+
+    cout << "Original Matrix (arr):\n";
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cout << arr[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    
+    columnMaxElements(arr, n, m);
+
+    
+    for (int j = 0; j < m; j++) {
+        int d = columnDiff(arr, n, j);
+        for (int i = 0; i < n; i++) {
+            if (arr[i][j] < arr[0][j])
+                b[i][j] = arr[i][j] - d;
+            else
+                b[i][j] = arr[i][j] + d;
+        }
+    }
+
+    cout << "\nTransformed Matrix (b):\n";
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cout << b[i][j] << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
