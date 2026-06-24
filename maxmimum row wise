@@ -1,0 +1,54 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+const int p = 100;
+
+int findMaxElement(int arr[][p], int n, int m) {
+    int maxVal = arr[0][0];
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            maxVal = max(maxVal, arr[i][j]);
+        }
+    }
+    return maxVal;
+}
+
+int diff(int arr[][p], int n, int m) {
+    int minVal = arr[0][0];
+    int maxVal = arr[0][0];
+    for (int i = 0; i < n; i++) {
+        if (arr[i][0] < minVal) minVal = arr[i][0];
+        if (arr[i][0] > maxVal) maxVal = arr[i][0];
+    }
+    return maxVal - minVal; // difference
+}
+
+int main() {
+    int n = 5, m = 5;
+    int arr[p][p], b[p][p];
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            arr[i][j] = i + j;
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        b[i][0] = arr[i][0];
+    }
+
+    for (int i = 0; i < n; i++) {
+        int d = diff(b, i + 1, m); 
+        for (int j = 0; j < m; j++) {
+            if (arr[i][j] < b[i][0])
+                b[i][j] = arr[i][j] - d;
+            else
+                b[i][j] = arr[i][j] + d;
+        }
+    }
+
+    int maxVal = findMaxElement(b, n, m);
+    cout << "Max element in b: " << maxVal << endl;
+    return 0;
+}
